@@ -15,5 +15,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/get-countries', [App\Http\Controllers\CountryController::class, 'getCountries']);
 Route::post('/register', [App\Http\Controllers\CountryController::class, 'registerUser']);
+Route::post('/delete-user', [App\Http\Controllers\CountryController::class, 'deleteUser']);
 Route::get('/get-users', [App\Http\Controllers\CountryController::class, 'getAllUsers']);
 

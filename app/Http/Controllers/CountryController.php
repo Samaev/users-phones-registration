@@ -310,7 +310,6 @@ class CountryController extends Controller
 
             DB::commit();
 
-            // Send email and SMS to the user (implementation not provided here)
             Mail::to($request->email)->send(new RegistrationConfirmation($user));
             $message = "Congratulation! Your registration confirmed!";
 
@@ -327,12 +326,8 @@ class CountryController extends Controller
                     'body' => $message
                 )
             );
-
-
-            // Return a success message
             return 'OK';
         } catch (\Exception $e) {
-            // If an error occurs, rollback the transaction and return an error message
             DB::rollBack();
             return 'Error here: ' . $e->getMessage();
         }
@@ -341,6 +336,20 @@ class CountryController extends Controller
     public function getAllUsers()
     {
         return User::with(['userCountry', 'phoneBook'])->get();
+    }
+
+    public function deleteUser(Request $request)
+    {
+        try {
+            $userId = $request->input('id');
+            $user = User::findOrFail($userId);
+            $user->userCountry()->delete();
+            $user->phoneBook()->delete();
+            $user->delete();
+            return response()->json(['message' => 'User deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete user'], 500);
+        }
     }
 
 }

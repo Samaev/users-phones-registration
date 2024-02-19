@@ -85,21 +85,21 @@
                     :items="users"
                     hide-default-footer
                 >
-                    <template v-slot:item="{ item }">
+                    <template v-slot:item="{ item, index }">
                         <tr>
-                            <td>{{ item.id }}</td>
+                            <td>{{ index+1 }}</td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.email }}</td>
                             <td>{{ item.phone_book.phone_number }} </td>
                             <td>{{ item.user_country.country }}</td>
+                            <v-btn variant="tonal" @click="deleteUser(item.id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z"/></svg>
+                            </v-btn>
                         </tr>
                     </template>
                 </v-data-table>
             </v-container>
         </template>
-        <div class="card">
-
-        </div>
     </div>
 
 </template>
@@ -128,7 +128,6 @@ export default {
     },
     methods: {
         fetchCountries() {
-            console.log('starting')
             axios.get('/get-countries')
                 .then(response => {
                     this.countries = response.data
@@ -181,7 +180,6 @@ export default {
             }
             axios.post('/register', user)
                 .then((response) => {
-console.log(response)
                     if (response.data.includes('Integrity constraint violation')) {
                         Swal.fire({
                             title: 'Error!',
@@ -189,32 +187,41 @@ console.log(response)
                             icon: 'error',
                             confirmButtonText: 'Got it'
                         })
+                    } else if(response.data.includes('Error')) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'User was not registered',
+                            icon: 'error',
+                            confirmButtonText: 'Got it'
+                        })
                     } else {
                         Swal.fire({
-                            title: 'Succes!',
+                            title: 'Success!',
                             text: 'User registered',
                             icon: 'success',
                             confirmButtonText: 'Cool'
-                        })
+                        });
+                        this.selectedCountry = null;
+                        this.fullName = null;
+                        this.email = null;
+                        this.phoneNumber = null;
+                        this.getUsers()
                     }
-                    this.selectedCountry = null;
-                    this.fullName = null;
-                    this.email = null;
-                    this.phoneNumber = null;
-
-                    this.getUsers()
                 })
                 .catch(error => {
                     console.error('Error:', error)
                 });
 
         },
+        deleteUser(userId){
+            axios.post('/delete-user', { id: userId })
+                .then(()=>this.getUsers())
+                .catch(error => {
+                    console.error('Error:', error)
+                });
+        },
         validateEmail() {
-            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
-                this.errorEmail = false;
-            } else {
-                this.errorEmail = true;
-            }
+            this.errorEmail = !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email);
         }
 
     },
