@@ -17,7 +17,6 @@ class CreateUserPhoneBookTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('phone_number');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

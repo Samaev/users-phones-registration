@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PhoneBook extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = 'user_phone_book';
     protected $fillable = ['user_id', 'phone_number'];
 

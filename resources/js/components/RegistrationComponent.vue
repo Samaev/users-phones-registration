@@ -187,14 +187,7 @@ export default {
                             icon: 'error',
                             confirmButtonText: 'Got it'
                         })
-                    } else if(response.data.includes('Error')) {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'User was not registered',
-                            icon: 'error',
-                            confirmButtonText: 'Got it'
-                        })
-                    } else {
+                    }  else {
                         Swal.fire({
                             title: 'Success!',
                             text: 'User registered',

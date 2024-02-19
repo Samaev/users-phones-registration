@@ -17,7 +17,6 @@ class CreateUserCountriesTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('country');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
