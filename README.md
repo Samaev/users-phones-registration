@@ -21,15 +21,15 @@ This guide will walk you through the steps to clone, deploy, and run a Laravel p
 
 `git clone <repository-url>`
 `cd <project-directory>`
+## _Create empty DataBase BITANGO called_
+
+## _Create a Copy of Your .env File_
+`cp .env.example .env`
 
 ## _Install Composer Dependencies_ and _Install NPM Dependencies_
 `composer install `
 `npm install`
 
-## _Create a Copy of Your .env File_
-`cp .env.example .env`
-
-## _Create empty DataBase BITANGO called_
 ## _Generate Application Key_
 `php artisan key:generate
 `
