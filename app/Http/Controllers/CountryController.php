@@ -284,72 +284,63 @@ class CountryController extends Controller
         return response()->json($countries);
     }
 
-    public function registerUser(Request $request): string
-    {
-        DB::beginTransaction();
+//    public function registerUser(Request $request): string
+//    {
+//        DB::beginTransaction();
+//
+//        try {
+//            $user = User::create([
+//                'name' => $request->fullName,
+//                'email' => $request->email,
+//            ]);
+//
+//            if (!empty($request->selectedCountry)) {
+//                UserCountry::create([
+//                    'user_id' => $user->id,
+//                    'country' => $request->selectedCountry,
+//                ]);
+//            }
+//
+//            if (!empty($request->phoneNumber)) {
+//                PhoneBook::create([
+//                    'user_id' => $user->id,
+//                    'phone_number' => $request->phoneNumber,
+//                ]);
+//            }
+//
+//            DB::commit();
+//
+//            Mail::to($request->email)->send(new RegistrationConfirmation($user));
+//            $message = "Congratulation! Your registration confirmed!";
+//
+//
+//            $account_sid ="ACa600d87e517168502c90908bdb0254a0";
+//            $auth_token = "f64b72b5192f80553387ed64208d15ca";
+//            $twilio_number = "+15169906171";
+//
+//            $client = new Client($account_sid, $auth_token);
+//            $client->messages->create(
+//                $request->phoneNumber,
+//                array(
+//                    'from' => $twilio_number,
+//                    'body' => $message
+//                )
+//            );
+//            return 'OK';
+//        } catch (\Exception $e) {
+//            DB::rollBack();
+//            return 'Error here: ' . $e->getMessage();
+//        }
+//    }
 
-        try {
-            $user = User::create([
-                'name' => $request->fullName,
-                'email' => $request->email,
-            ]);
-
-            if (!empty($request->selectedCountry)) {
-                UserCountry::create([
-                    'user_id' => $user->id,
-                    'country' => $request->selectedCountry,
-                ]);
-            }
-
-            if (!empty($request->phoneNumber)) {
-                PhoneBook::create([
-                    'user_id' => $user->id,
-                    'phone_number' => $request->phoneNumber,
-                ]);
-            }
-
-            DB::commit();
-
-            Mail::to($request->email)->send(new RegistrationConfirmation($user));
-            $message = "Congratulation! Your registration confirmed!";
-
-
-            $account_sid ="ACa600d87e517168502c90908bdb0254a0";
-            $auth_token = "f64b72b5192f80553387ed64208d15ca";
-            $twilio_number = "+15169906171";
-
-            $client = new Client($account_sid, $auth_token);
-            $client->messages->create(
-                $request->phoneNumber,
-                array(
-                    'from' => $twilio_number,
-                    'body' => $message
-                )
-            );
-            return 'OK';
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return 'Error here: ' . $e->getMessage();
-        }
-    }
-
-    public function getAllUsers()
-    {
-        return User::with(['userCountry', 'phoneBook'])->get();
-    }
+//    public function getAllUsers()
+//    {
+//        return User::with(['userCountry', 'phoneBook'])->get();
+//    }
 
     public function deleteUser(Request $request)
     {
-        try {
-            $userId = $request->input('id');
-            $user = User::findOrFail($userId);
-            $user->userCountry()->delete();
-            $user->phoneBook()->delete();
-            $user->delete();
-            return response()->json(['message' => 'User deleted successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete user'], 500);
-        }
+
     }
 
 }

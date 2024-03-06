@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\User\CreateController;
+use App\Http\Controllers\User\DestroyController;
+use App\Http\Controllers\User\ShowController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -13,8 +17,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/get-countries', [App\Http\Controllers\CountryController::class, 'getCountries']);
-Route::post('/register', [App\Http\Controllers\CountryController::class, 'registerUser']);
-Route::post('/delete-user', [App\Http\Controllers\CountryController::class, 'deleteUser']);
-Route::get('/get-users', [App\Http\Controllers\CountryController::class, 'getAllUsers']);
+Route::get('/get-countries', [CountryController::class, 'getCountries']);
+Route::post('/register', CreateController::class);
+Route::post('/delete-user', DestroyController::class);
+Route::get('/get-users', ShowController::class);
 
